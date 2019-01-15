@@ -1,0 +1,41 @@
+# 基本のライブラリを読み込む
+import numpy as np
+import pandas as pd
+from scipy import stats
+
+# グラフ描画
+from matplotlib import pylab as plt
+import seaborn as sns
+%matplotlib inline
+sns.set()
+
+# グラフを横長にする
+from matplotlib.pylab import rcParams
+rcParams['figure.figsize'] = 15, 6
+
+# 統計モデル
+import statsmodels.api as sm
+# 普通にデータを読み込む
+dataNormal = pd.read_csv('jiken201812.csv')
+dataNormal.head()
+
+# 日付形式で読み込む（dtype=floatで読み込まないと、あとでARIMAモデル推定時にエラーとなる）
+dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m')
+data = pd.read_csv('AirPassengers.csv', index_col='Month', date_parser=dateparse, dtype='float')
+data.head()
+
+# 以下のコードの方が読み込みは簡単
+data = pd.read_csv('jiken201812.csv', 
+                   index_col='Month', 
+                   parse_dates=True, 
+                   dtype='float')
+data.head()
+
+# 日付形式にする
+ts = data['jiken201812'] 
+ts.head()
+
+# 2018のデータをすべて取ってくる
+ts['2018']
+
+plt.plot(ts)
